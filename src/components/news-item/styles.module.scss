@@ -1,0 +1,33 @@
+.item {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  transition: background-color 0.2s linear;
+  &:hover {
+    background-color: #f2f4f5;
+  }
+
+  .wrapper {
+    width: 64px;
+    height: 64px;
+    background-color: #f2f4f5;
+    background-position: center;
+    background-size: cover;
+    flex-shrink: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 12px;
+  }
+
+  .extra {
+    font-size: 12px;
+    color: #6c7072;
+  }
+}
