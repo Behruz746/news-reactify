@@ -13,10 +13,10 @@ function Main() {
         setLoad(true);
         const response = await getNews();
         setNews(response.data.news);
-        setLoad(false);
+        setLoad(false); 
       } catch (error) {
         console.log(error);
-      }
+      }   
     };
 
     fetchNews();
