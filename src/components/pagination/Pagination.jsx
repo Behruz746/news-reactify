@@ -3,45 +3,40 @@ import styles from "./styles.module.scss";
 
 function Pagination({
   totalPages,
-  handleNextPage,
   handlePreviousPage,
+  handleNextPage,
   handlePageClick,
   currentPage,
 }) {
   return (
     <>
-      <div className={styles.pagination} onClick={handlePreviousPage}>
+      <div className={styles.pagination}>
         <button
-          type="button"
-          className={styles.arrow}
           disabled={currentPage <= 1}
+          onClick={handlePreviousPage}
+          className={styles.arrow}
         >
           {"<"}
         </button>
-
         <div className={styles.list}>
-          {[...Array(totalPages)].map((_, idx) => (
-            <button
-              type="button"
-              className={
-                idx + 1 === currentPage
-                  ? styles.pageNumberDisabel
-                  : styles.pageNumber
-              }
-              onClick={() => handlePageClick(idx + 1)}
-              disabled={idx + 1 === currentPage}
-              key={idx}
-            >
-              {idx + 1}
-            </button>
-          ))}
+          {[...Array(totalPages)].map((_, index) => {
+            return (
+              <button
+                onClick={() => handlePageClick(index + 1)}
+                className={styles.pageNumber}
+                disabled={index + 1 === currentPage}
+                key={index}
+              >
+                {index + 1}
+              </button>
+            );
+          })}
         </div>
 
         <button
-          type="button"
-          className={styles.arrow}
-          onClick={handleNextPage}
           disabled={currentPage >= totalPages}
+          onClick={handleNextPage}
+          className={styles.arrow}
         >
           {">"}
         </button>
