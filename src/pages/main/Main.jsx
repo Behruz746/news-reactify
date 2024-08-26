@@ -1,19 +1,49 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { NewsBanner, NewsList, Skeleton, Pagination } from "../../components";
-import { getNews } from "../../service/news";
+import {
+  NewsBanner,
+  NewsList,
+  Skeleton,
+  Pagination,
+  Categories,
+} from "../../components";
+import { getNews, getCategories } from "../../service/news";
 
 function Main() {
   const [news, setNews] = useState([]);
   const [load, setLoad] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [categories, setCategories] = useState([
+    "All",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+  ]); // default value []
+  const [selectCategory, setSelectCategory] = useState("All");
   const totalPages = 10;
   const pageSize = 10;
 
   const fetchNews = async (currentPage) => {
     try {
       setLoad(true);
-      const response = await getNews(currentPage, pageSize, "english");
+      const response = await getNews({
+        page__number: currentPage,
+        page__size: pageSize,
+        category: selectCategory === "All" ? null : selectCategory,
+        language: "english",
+      });
       setNews(response.data.news);
       setLoad(false);
     } catch (error) {
@@ -21,9 +51,22 @@ function Main() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await getCategories();
+      setCategories(["All", ...response.categories]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage]);
+  }, [currentPage, selectCategory]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -41,10 +84,19 @@ function Main() {
     setCurrentPage(pageNumber);
   };
 
+  const setSelectedCategory = (select) => {
+    setSelectCategory(select);
+  };
+
   return (
     <>
       <main className={styles.main}>
         <div className={"container"}>
+          <Categories
+            categories={categories}
+            setSelectedCategory={setSelectedCategory}
+            selectCategory={selectCategory}
+          />
           {news.length > 0 && !load ? (
             <NewsBanner item={news[0]} />
           ) : (
