@@ -6,8 +6,28 @@
 
 .banner {
   width: 100%;
-  padding-top: 100%;
+  height: 300px;
   position: relative;
+  &::before {
+    content: "";
+    width: 90%;
+    height: 10px;
+    background-color: #ccc;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 10px;
+  }
+  &::after {
+    content: "";
+    width: 60%;
+    height: 10px;
+    background-color: #ccc;
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+    border-radius: 10px;
+  }
 }
 
 .item {
@@ -23,6 +43,17 @@
     top: 50%;
     left: 10px;
     transform: translateY(-50%);
+  }
+  &::after {
+    content: "";
+    width: 75%;
+    height: 10px;
+    background-color: #ccc;
+    position: absolute;
+    top: 30%;
+    left: 70px;
+    transform: translateY(-30%);
+    border-radius: 10px;
   }
 }
 
