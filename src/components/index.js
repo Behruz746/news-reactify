@@ -5,4 +5,5 @@ export { default as Skeleton } from "./skeleton/Skeleton";
 export { default as NewsItem } from "./news-item/NewsItem";
 export { default as Pagination } from "./pagination/Pagination";
 export { default as Categories } from "./categories/Categories";
+export { default as Search } from "./search/Search";
 export { default as Image } from "./image/Image";

@@ -6,15 +6,78 @@ import {
   Skeleton,
   Pagination,
   Categories,
+  Search,
 } from "../../components";
 import { getNews, getCategories } from "../../service/news";
+import { useDebounce } from "../../hooks/useDebounce";
 
 function Main() {
   const [news, setNews] = useState([]);
   const [load, setLoad] = useState(true);
+  const [keywords, setKeywords] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [categories, setCategories] = useState([
     "All",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
+    "Game",
+    "Programing",
+    "CS",
+    "PC",
+    "Pepsi",
     "Game",
     "Programing",
     "CS",
@@ -35,6 +98,10 @@ function Main() {
   const totalPages = 10;
   const pageSize = 10;
 
+  const debouncedKeywords = useDebounce(keywords, 1500);
+
+  console.log(keywords);
+
   const fetchNews = async (currentPage) => {
     try {
       setLoad(true);
@@ -42,6 +109,7 @@ function Main() {
         page__number: currentPage,
         page__size: pageSize,
         category: selectCategory === "All" ? null : selectCategory,
+        keywords: debouncedKeywords,
         language: "english",
       });
       setNews(response.data.news);
@@ -66,7 +134,7 @@ function Main() {
 
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectCategory]);
+  }, [currentPage, selectCategory, debouncedKeywords]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -97,6 +165,7 @@ function Main() {
             setSelectedCategory={setSelectedCategory}
             selectCategory={selectCategory}
           />
+          <Search keywords={keywords} setKeywords={setKeywords} />
           {news.length > 0 && !load ? (
             <NewsBanner item={news[0]} />
           ) : (
