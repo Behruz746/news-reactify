@@ -28,8 +28,6 @@ function Main() {
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-
-      console.log(currentPage);
     }
   };
 
@@ -53,10 +51,10 @@ function Main() {
             <Skeleton count={1} type={"banner"} />
           )}
           <Pagination
-            totalPages={totalPages}
-            handleNextPage={handleNextPage}
             handlePreviousPage={handlePreviousPage}
+            handleNextPage={handleNextPage}
             handlePageClick={handlePageClick}
+            totalPages={totalPages}
             currentPage={currentPage}
           />
 
