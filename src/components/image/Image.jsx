@@ -13,7 +13,7 @@ function Image({ width, height, img, title }) {
             loading="lazy"
             src={img}
             className={styles.img}
-            alt={`${title} - image`}
+            alt={`${title} - NO image`}
           />
         ) : null}
       </div>

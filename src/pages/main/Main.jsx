@@ -16,103 +16,22 @@ function Main() {
   const [load, setLoad] = useState(true);
   const [keywords, setKeywords] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [categories, setCategories] = useState([
-    "All",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-    "Game",
-    "Programing",
-    "CS",
-    "PC",
-    "Pepsi",
-  ]); // default value []
+  const [categories, setCategories] = useState([]); // default value []
   const [selectCategory, setSelectCategory] = useState("All");
   const totalPages = 10;
   const pageSize = 10;
-
   const debouncedKeywords = useDebounce(keywords, 1500);
-
-  console.log(keywords);
 
   const fetchNews = async (currentPage) => {
     try {
       setLoad(true);
       const response = await getNews({
-        page__number: currentPage,
-        page__size: pageSize,
+        page_number: currentPage,
+        page_size: pageSize,
         category: selectCategory === "All" ? null : selectCategory,
         keywords: debouncedKeywords,
-        language: "english",
       });
-      setNews(response.data.news);
+      setNews(response.news);
       setLoad(false);
     } catch (error) {
       console.log(error);

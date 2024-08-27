@@ -2,26 +2,25 @@ import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const BASE_URL = import.meta.env.VITE_NEWS_BASE_API_URL;
+const DEFAULT_URL = import.meta.env.VITE_NEWS_BASE_DEFAULT_API_URL;
 
 export const getNews = async ({
-  page__number = 1,
-  page__size = 10,
+  page_number = 1,
+  page_size = 10,
   category,
   keywords,
-  language = "english",
 }) => {
   try {
     const response = await axios.get(`${BASE_URL}search`, {
       params: {
         apiKey: API_KEY,
-        page__number,
-        page__size,
-        language,
+        page_number,
+        page_size,
         category,
         keywords,
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -29,12 +28,10 @@ export const getNews = async ({
 
 export const getCategories = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}available/categories`, {
-      params: {
-        apiKey: API_KEY,
-      },
+    const response = await axios.get(`${DEFAULT_URL}available/categories`, {
+      params: { apiKey: API_KEY },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
