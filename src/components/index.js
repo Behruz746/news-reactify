@@ -5,5 +5,8 @@ export { default as Skeleton } from "./skeleton/Skeleton";
 export { default as NewsItem } from "./news-item/NewsItem";
 export { default as Pagination } from "./pagination/Pagination";
 export { default as Categories } from "./categories/Categories";
+export { default as BannerList } from "./banner-list/BannerList";
+export { default as LatestNews } from "./latest-news/LatestNews";
+export { default as NewsByFilters } from "./news-by-filters/NewsByFilters";
 export { default as Search } from "./search/Search";
 export { default as Image } from "./image/Image";

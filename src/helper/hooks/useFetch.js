@@ -14,6 +14,7 @@ export const useFetch = (fetchFunction, params) => {
         setData(result);
       } catch (error) {
         setIsLoad(false);
+        setError(false);
       } finally {
         setIsLoad(false);
       }
