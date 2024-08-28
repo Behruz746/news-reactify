@@ -1,15 +1,9 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import {
-  NewsBanner,
-  NewsList,
-  Pagination,
-  Categories,
-  Search,
-} from "../../components";
-import { getNews, getCategories } from "../../service/news";
+import { LatestNews, NewsByFilters } from "../../components";
+import { getNews } from "../../service/news";
 import { useDebounce } from "../../helper/hooks/useDebounce";
-import { PAGESIZE, TOTALPAGES } from "../../constants/constants";
+import { PAGESIZE } from "../../constants/constants";
 import { useFetch } from "../../helper/hooks/useFetch";
 import { useFilter } from "../../helper/hooks/useFilter";
 
@@ -27,64 +21,32 @@ function Main() {
     ...filter,
     keywords: debouncedKeywords,
   });
-  const { data: dataCategories } = useFetch(getCategories);
 
-  const handleNextPage = () => {
-    if (filter.page_number < TOTALPAGES) {
-      changeFilter("page_number", filter.page_number + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (filter.page_number > 1) {
-      changeFilter("page_number", filter.page_number - 1);
-    }
-  };
-
-  const handlePageClick = (pageNumber) => {
-    changeFilter("page_number", pageNumber);
-  };
+  const { data: dataBanners, isLoad: bannerLoad } = useFetch(getNews, {
+    category: "art",
+    page_size: 50,
+    keywords: debouncedKeywords,
+  });
 
   return (
     <>
-      <main className={styles.main}>
-        <div className={"container"}>
-          {dataCategories ? (
-            <Categories
-              categories={dataCategories.categories}
-              setSelectedCategory={(category) =>
-                changeFilter("category", category)
-              }
-              selectCategory={filter.category}
-            />
-          ) : null}
-
-          <Search
-            keywords={filter.keywords}
-            setKeywords={(keywords) => changeFilter("keywords", keywords)}
+      {!error ? (
+        <main className={styles.main}>
+          <LatestNews
+            isLoad={bannerLoad}
+            banners={dataBanners && dataBanners.news}
           />
 
-          <NewsBanner
+          <NewsByFilters
+            news={data?.news}
             isLoad={isLoad}
-            item={data && data.news && data.news[0]}
+            filter={filter}
+            changeFilter={changeFilter}
           />
-          <Pagination
-            handlePreviousPage={handlePreviousPage}
-            handleNextPage={handleNextPage}
-            handlePageClick={handlePageClick}
-            totalPages={TOTALPAGES}
-            currentPage={filter.page_number}
-          />
-          <NewsList isLoad={isLoad} news={data?.news} />
-          <Pagination
-            totalPages={TOTALPAGES}
-            handleNextPage={handleNextPage}
-            handlePreviousPage={handlePreviousPage}
-            handlePageClick={handlePageClick}
-            currentPage={filter.page_number}
-          />
-        </div>
-      </main>
+        </main>
+      ) : (
+        <h1 className={styles.error}>Not Found 404 :(</h1>
+      )}
     </>
   );
 }

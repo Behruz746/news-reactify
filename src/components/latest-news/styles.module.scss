@@ -1,0 +1,11 @@
+.section {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 100%;
+  gap: 32px;
+  // fixed
+  overflow: auto;
+  height: 100vw;
+  scrollbar-width: none; // remove scroll width
+}
