@@ -1,11 +1,30 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import Pagination from "../pagination/Pagination";
 import { NewsList } from "..";
 import { TOTALPAGES } from "../../constants/constants";
 import NewsFilters from "../news-filters/NewsFilters";
+import { getNews } from "../../service/news";
+import { useDebounce } from "../../helper/hooks/useDebounce";
+import { PAGESIZE } from "../../constants/constants";
+import { useFetch } from "../../helper/hooks/useFetch";
+import { useFilter } from "../../helper/hooks/useFilter";
+import PaginationWrapper from "../pagination-wrapper/PaginationWrapper";
 
-function NewsByFilters({ filter, changeFilter, isLoad, news }) {
+function NewsByFilters() {
+  const { filter, changeFilter } = useFilter({
+    page_number: 1,
+    page_size: PAGESIZE,
+    category: null,
+    keywords: "",
+  });
+
+  const debouncedKeywords = useDebounce(filter.keywords, 1500);
+
+  const { data, isLoad, error } = useFetch(getNews, {
+    ...filter,
+    keywords: debouncedKeywords,
+  });
+
   const handleNextPage = () => {
     if (filter.page_number < TOTALPAGES) {
       changeFilter("page_number", filter.page_number + 1);
@@ -26,22 +45,21 @@ function NewsByFilters({ filter, changeFilter, isLoad, news }) {
     <>
       <section className={styles.section}>
         <NewsFilters filter={filter} changeFilter={changeFilter} />
-
-        <Pagination
+        <PaginationWrapper
+          top
+          bottom
           handlePreviousPage={handlePreviousPage}
           handleNextPage={handleNextPage}
           handlePageClick={handlePageClick}
           totalPages={TOTALPAGES}
           currentPage={filter.page_number}
-        />
-        <NewsList isLoad={isLoad} news={news} />
-        <Pagination
-          totalPages={TOTALPAGES}
-          handleNextPage={handleNextPage}
-          handlePreviousPage={handlePreviousPage}
-          handlePageClick={handlePageClick}
-          currentPage={filter.page_number}
-        />
+        >
+          {error ? (
+            <h1 className={styles.error}>Not Found 404 :(</h1>
+          ) : (
+            <NewsList isLoad={isLoad} news={data?.news} />
+          )}
+        </PaginationWrapper>
       </section>
     </>
   );
