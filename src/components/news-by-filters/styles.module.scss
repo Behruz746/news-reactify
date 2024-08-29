@@ -1,0 +1,13 @@
+.section {
+  display: flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 100%;
+  gap: 32px;
+  background-color: #fff;
+}
+
+.error {
+  text-align: center;
+}
