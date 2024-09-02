@@ -4,8 +4,12 @@
   flex-direction: column;
   width: 100%;
   gap: 32px;
-  // fixed
-  overflow: auto;
-  height: 100vw;
-  scrollbar-width: none; // remove scroll width
+}
+
+@media screen and (min-width: 768px) {
+  .section {
+    overflow: auto;
+    height: 100vw;
+    scrollbar-width: none; // remove scroll width
+  }
 }
